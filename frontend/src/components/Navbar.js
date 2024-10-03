@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Avatar, AvatarFallback, AvatarImage } from './Avatar';
 import { Home, BookOpen, PenTool } from 'lucide-react';
 
 function Navbar() {
@@ -25,12 +24,6 @@ function Navbar() {
           </li>
         ))}
       </ul>
-      <div className="mt-auto p-4">
-        <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
-      </div>
     </nav>
   );
 }
