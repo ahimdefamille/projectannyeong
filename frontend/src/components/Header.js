@@ -2,11 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import i18n from 'i18next';
 import { jwtDecode } from 'jwt-decode';
-import { ChevronDownIcon, GlobeIcon, UserIcon, LogOutIcon } from 'lucide-react';
+import { ChevronDownIcon, GlobeIcon, UserIcon, LogOutIcon, CrownIcon } from 'lucide-react';
 
 const Header = () => {
   const [username, setUsername] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isVip, setIsVip] = useState(false); // Add state for VIP status
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
 
@@ -16,6 +17,7 @@ const Header = () => {
       try {
         const decoded = jwtDecode(token);
         const userId = decoded.userId;
+        setIsVip(decoded.isVip || false); // Set VIP status
         fetchUserDetails(userId);
       } catch (error) {
         console.error('Failed to decode token:', error);
@@ -64,6 +66,7 @@ const Header = () => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     setUsername('');
+    setIsVip(false); // Reset VIP status on logout
     navigate('/');
   };
 
@@ -94,6 +97,7 @@ const Header = () => {
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               className="flex items-center space-x-2 text-white hover:text-yellow-300 transition-colors duration-300 focus:outline-none"
             >
+              {isVip && <CrownIcon className="w-5 h-5 text-yellow-300" />} {/* Display crown icon if VIP */}
               <UserIcon className="w-5 h-5" />
               <span>{username}</span>
               <ChevronDownIcon className="w-4 h-4" />

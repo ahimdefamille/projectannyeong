@@ -11,7 +11,10 @@ const LessonNavbar = ({ moduleNumber, moduleId }) => {
         const loadLessons = async () => {
             try {
                 const fetchedLessons = await fetchLessonsByModule(moduleId);
-                setLessons(fetchedLessons);
+
+                // Sort lessons by lesson_number before setting the state
+                const sortedLessons = fetchedLessons.sort((a, b) => a.lesson_number - b.lesson_number);
+                setLessons(sortedLessons);
             } catch (error) {
                 console.error("Error loading lessons:", error);
             }

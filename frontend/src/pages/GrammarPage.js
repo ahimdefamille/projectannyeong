@@ -2,13 +2,16 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import DOMPurify from 'dompurify'; // Import DOMPurify
-import GrammarContent from '../content/module_1/grammar/GrammarContent';
+import GrammarContent from '../content/grammar/GrammarContent';
 
 const GrammarPage = () => {
   const { lessonId } = useParams();
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language; // Get the current language
   const content = GrammarContent[lessonId]?.[currentLanguage]; // Get the content based on the language
+
+  console.log('Lesson ID:', lessonId);
+  console.log('Current Language:', currentLanguage);
 
   if (!content) {
     return (

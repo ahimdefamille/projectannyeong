@@ -4,7 +4,7 @@ import { Home, BookOpen, PenTool } from 'lucide-react';
 
 function Navbar() {
   const navItems = [
-    { name: 'Home', icon: <Home className="h-5 w-5" />, path: '/' },
+    { name: 'Home', icon: <Home className="h-5 w-5" />, path: '/home' },
     { name: 'Hangeul', icon: <PenTool className="h-5 w-5" />, path: '/hangeul' },
     { name: 'Learn', icon: <BookOpen className="h-5 w-5" />, path: '/learn' },
   ];

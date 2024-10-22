@@ -6,8 +6,8 @@ const VocabularySchema = new Schema({
   word_korean: { type: String, required: true },
   word_romanization: { type: String, required: true }, 
   word_english: { type: String, required: true },
-  audio_file_url: { type: String, required: true },
-  image_url: { type: String, required: true },
+  audio_file_url: { type: String, required: false },
+  image_url: { type: String, required: false },
   example_sentence_korean: { type: String, required: true },
   example_sentence_english: { type: String, required: true }
 });

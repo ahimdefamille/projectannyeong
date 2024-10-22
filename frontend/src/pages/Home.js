@@ -21,10 +21,14 @@ const Home = () => {
 
                 // Fetch lessons for all modules
                 const allLessons = {};
-                for (const module of fetchedModules) {
-                    const moduleLessons = await fetchLessonsByModule(module._id);
-                    allLessons[module._id] = moduleLessons;
-                }
+            for (const module of fetchedModules) {
+                let moduleLessons = await fetchLessonsByModule(module._id);
+                
+                // Sort the lessons by lesson_number
+                moduleLessons = moduleLessons.sort((a, b) => a.lesson_number - b.lesson_number);
+
+                allLessons[module._id] = moduleLessons;
+            }
                 setLessons(allLessons);
             } catch (error) {
                 console.error("Error loading modules or completed lessons:", error);
@@ -116,7 +120,7 @@ const Home = () => {
                                                 className={`relative flex items-center justify-center w-10 h-10 rounded-full cursor-pointer shadow-md
                                                     ${completedLessons.includes(lesson._id) 
                                                         ? 'bg-green-500 text-white' 
-                                                        : 'bg-blue-500 text-white hover:bg-blue-600'}`}
+                                                        : 'bg-white text-blue-600 border-2 border-blue-500 hover:bg-blue-50'}`}
                                                 whileHover={{ scale: 1.1 }}
                                                 whileTap={{ scale: 0.95 }}
                                             >

@@ -4,6 +4,8 @@ import { fetchVocabularyByLesson, playPollyAudio } from '../services/api';
 import Progress from '../components/Progress';
 import { Eye, EyeOff } from 'lucide-react';
 import Fireworks from '../components/Fireworks';
+import correctSound from '../assets/sounds/ting.mp3'; // Correct sound
+import incorrectSound from '../assets/sounds/ding.mp3'; // Incorrect sound
 
 const PracticePage = () => {
     const { lessonId } = useParams();
@@ -32,14 +34,14 @@ const PracticePage = () => {
         try {
             const data = await fetchVocabularyByLesson(lessonId);
             const uniqueVocab = [...new Set(data.map(v => JSON.stringify(v)))].map(v => JSON.parse(v));
-            const limitedVocab = uniqueVocab.slice(0, Math.min(5, uniqueVocab.length));
+            const limitedVocab = uniqueVocab.slice(0, Math.min(50, uniqueVocab.length));
             const formattedVocab = limitedVocab.flatMap(v => [
                 { ...v, direction: 'toEnglish' }, 
                 { ...v, direction: 'toKorean' }
             ]);
             const extendedVocab = shuffleArray(formattedVocab);
             setVocabularies(extendedVocab);
-            setTotalCount(5); 
+            setTotalCount(50); 
         } catch (error) {
             console.error("Error loading vocabulary:", error);
         }
@@ -71,6 +73,10 @@ const PracticePage = () => {
             setShowNext(true);
             setShowAnswer(false);
 
+            // Play the correct answer sound
+            const correctAudio = new Audio(correctSound);
+            correctAudio.play();
+
             if (correctCount + 1 === totalCount) {
                 setIsGameComplete(true);
                 setShowCongrats(true);
@@ -78,6 +84,10 @@ const PracticePage = () => {
         } else {
             setFeedback('Incorrect! Please try again.');
             setShowNext(false);
+
+            // Play the incorrect answer sound
+            const incorrectAudio = new Audio(incorrectSound);
+            incorrectAudio.play();
         }
     };
 

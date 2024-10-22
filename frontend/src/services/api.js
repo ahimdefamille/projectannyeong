@@ -2,7 +2,22 @@ const API_URL = process.env.REACT_APP_BACKEND_URL;
 
 export const fetchModules = async () => {
   try {
-    const response = await fetch(`${API_URL}/api/modules`);
+    // Assuming the JWT token is stored in localStorage
+    const token = localStorage.getItem("token");
+    
+    const response = await fetch(`${API_URL}/api/modules`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`, // Add the token to the headers
+      },
+    });
+
+    // Check if the response is ok
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
     const data = await response.json();
     return data;
   } catch (error) {
@@ -10,6 +25,7 @@ export const fetchModules = async () => {
     throw error;
   }
 };
+
 
 export const fetchLessonsByModule = async (moduleId) => {
   try {

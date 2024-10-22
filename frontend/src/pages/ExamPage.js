@@ -4,7 +4,8 @@ import { fetchExamsByLesson, playPollyAudio } from '../services/api';
 import Progress from '../components/Progress';
 import Fireworks from '../components/Fireworks';
 import { Eye, EyeOff } from 'lucide-react';
-
+import correctSound from '../assets/sounds/ting.mp3';
+import incorrectSound from '../assets/sounds/ding.mp3';
 
 const ExamPage = () => {
     const { lessonId } = useParams();
@@ -15,7 +16,7 @@ const ExamPage = () => {
     const [showNext, setShowNext] = useState(false);
     const [showAnswer, setShowAnswer] = useState(false);
     const [correctCount, setCorrectCount] = useState(0);
-    const [totalCount] = useState(30); // Fixed total count of 30 questions
+    const [totalCount] = useState(50); // Fixed total count of 50 questions
     const [showCongrats, setShowCongrats] = useState(false);
     const [isGameComplete, setIsGameComplete] = useState(false);
 
@@ -28,7 +29,7 @@ const ExamPage = () => {
             extendedExams.push({ ...exam, direction: 'toKorean' });
         });
 
-        return shuffleArray(extendedExams).slice(0, 30);
+        return shuffleArray(extendedExams).slice(0, 50);
     }, []);
 
     useEffect(() => {
@@ -94,6 +95,10 @@ const ExamPage = () => {
             setCorrectCount(correctCount + 1);
             setShowNext(true);
 
+            // Play the correct answer sound
+            const correctAudio = new Audio(correctSound);
+            correctAudio.play();
+
             if (correctCount + 1 === totalCount) {
                 setIsGameComplete(true);
                 setShowCongrats(true);
@@ -101,6 +106,9 @@ const ExamPage = () => {
         } else {
             setFeedback('Incorrect! Please try again.');
             setShowNext(false);
+            // Play the incorrect answer sound
+            const incorrectAudio = new Audio(incorrectSound);
+            incorrectAudio.play();
         }
     };
 

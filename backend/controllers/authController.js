@@ -34,8 +34,11 @@ exports.signup = async (req, res) => {
         await user.save();
         console.log('User saved successfully:', user);
 
-        const payload = { userId: user._id };
-        const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const payload = {
+            userId: user._id,
+            isVip: user.isVip, // Include isVip status in the token payload
+          };
+        const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '30d' });
 
         res.status(201).json({ token });
     } catch (err) {
@@ -63,8 +66,11 @@ exports.login = async (req, res) => {
             return res.status(400).json({ msg: 'Invalid credentials' });
         }
 
-        const payload = { userId: user._id };
-        const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const payload = {
+            userId: user._id,
+            isVip: user.isVip, // Include isVip status in the token payload
+          };
+        const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '30d' });
 
         // Return token and user information
         res.json({
